@@ -3,6 +3,11 @@ from constants import (
     TREE_DEPTH
 )
 
+
+class InvalidCoords(Exception):
+    pass
+
+
 class CupNode: 
     def __init__(self, x, y, size=CUP_SIZE): 
         self.x = x
@@ -14,6 +19,7 @@ class CupNode:
         self.right = None
     
     def fill(self, pour_amount):
+        # return overflow 
         if self.amount + pour_amount >= self.size:
             pre_pour_amount = self.amount
             self.amount = self.size
@@ -49,13 +55,11 @@ class CupTree:
                     self.coord_map[_right_coords] = _right
                 _node.left = _left
                 _node.right = _right
-    
-    def reset(self):
-        for _cup in self.coord_map.values():
-            _cup.amount = 0 
 
     def get_cup_amount(self, i, j):
-        return self.coord_map[(i,j)].amount
+        if self.coord_map.get((i,j)) is None:
+            raise InvalidCoords('{}, {} is out of bounds'.format(i,j))
+        return round(self.coord_map[(i,j)].amount, 4)
 
     def pour(self, amount): 
         # BFS same as the construction of the tree 

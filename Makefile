@@ -2,7 +2,7 @@
 VENV = vp/bin
 PYTHON = $(VENV)/python3
 
-CMDLIST_FILE ?= -
+CMD_LIST ?= 1,1,1
 # Building virtual python (vp)
 
 .PHONY: create_vp
@@ -24,7 +24,7 @@ destroy_vp:
 
 .PHONY: run_py
 run_py:
-	$(PYTHON) src/main.py 1,1,0.3
+	$(PYTHON) src/main.py $(CMD_LIST)
 
 .PHONY: test
 test:
